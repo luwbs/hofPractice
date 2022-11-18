@@ -25,12 +25,29 @@ var moreFruits = function (fruits) {
 // use _.each to traverse the number array and determine
 // which are multiples of five.
 var multiplesOfFive = function (numbers) {
+  var fives = [];
+
+  _.each(numbers, function(number) {
+    if (number % 5 === 0) {
+      fives.push(number);
+    }
+  });
+  return fives.length;
 
 };
 
 // use _.each to build an array containing only tweets belonging to a specified user.
 var getUserTweets = function(tweets, user) {
-
+  var result = [];
+  // look at each
+    // if user value matches our sought term
+      // push to result
+  _.each(tweets, function(tweet, ind, arr) {
+    if (arr[ind].user === user) {
+      result.push(tweet);
+    }
+  });
+  return result;
 };
 
 /*
@@ -41,23 +58,31 @@ var getUserTweets = function(tweets, user) {
 
 // use _.filter to return the fruits array with only the desired fruit.
 var onlyOneFruit = function (fruits, targetFruit) {
-
+  return _.filter(fruits, function(fruit) {
+    return fruit === targetFruit;
+  });
 };
 
 // use _.filter to return the fruits array with only fruits
 // starting with the letter 'P'.
 var startsWith = function (fruits, letter) {
-
+  return _.filter(fruits, function(fruit) {
+    return fruit[0] === letter;
+  });
 };
 
 // return a filtered array containing only cookie-type desserts.
 var cookiesOnly = function (desserts) {
-
+  return _.filter(desserts, function(dessert) {
+    return dessert.type === 'cookie';
+  });
 };
 
 // rebuild the getUserTweets function from above with _.filter instead
 var filterUserTweets = function(tweets, user) {
-
+  return _.filter(tweets, function(tweet) {
+    return tweet.user === user;
+  });
 };
 
 /*
