@@ -178,12 +178,29 @@ var applyCoupon = function (groceries, coupon) {
 
 // return the total price of all products.
 var sumTotal = function (products) {
-
+  return _.reduce(products, function(memo, item) {
+    return memo + parseFloat(item.price.substring(1));
+  }, 0);
 };
 
 // return an object consisting of dessert types and how many of each.
 // exampleOutput: { dessertType: 3, dessertType2: 1 }
 var dessertCategories = function (desserts) {
+  return _.reduce(desserts, function(totals, item) {
+    // if type doesn't exist in totals
+      // instantiate it
+    // otherwise
+      // increment it
+    // if (!totals[item.type]) {
+    //   totals[item.type] = 1;
+    // } else {
+    //   totals[item.type] += 1;
+    // }
+
+    // refactoring into ternary as practice:
+    !totals[item.type] ? totals[item.type] = 1 : totals[item.type]++;
+    return totals;
+  }, {});
 
 };
 
@@ -199,19 +216,93 @@ var dessertCategories = function (desserts) {
   }
 */
 var countMessagesPerUser = function(tweets) {
-
+  // iterate thru tweets
+  // if user exists
+    // increment number of messages
+  // otherwise
+    // create user prop as current user
+    // and messages = 1
+  return _.reduce(tweets, function(totals, tweet) {
+    if (totals[tweet.user]) {
+      totals[tweet.user]++;
+    } else {
+      totals[tweet.user] = 1;
+    }
+    return totals;
+  }, {} );
 };
 
 // given an array of movie data objects,return an array containing
 // movies that came out between 1990 and 2000.
 // TIP: use an array as your accumulator - don't push to an external array!
 var ninetiesKid = function (movies) {
-
+  // if releaseYear is in the 90s
+    // push current title to memoizer
+  // return memoizer to use in next iteration
+  return _.reduce(movies, function(ninetiesMovs, movie) {
+    if (movie.releaseYear >= 1990 && movie.releaseYear <= 2000) {
+      ninetiesMovs.push(movie['title']);
+    }
+    return ninetiesMovs;
+  }, []);
 };
 
-// return an boolean stating if there exists a movie with a shorter
+// return a boolean stating if there exists a movie with a shorter
 // runtime than your time limit.
 // timeLimit is an integer representing a number of minutes.
 var movieNight = function (movies, timeLimit) {
+  return _.reduce(movies, function(shorterExists, movie) {
+    // if current movie length is less than limit
+    // shorterExists = true
+    if (movie.runtime < timeLimit) {
+      shorterExists = true;
+    }
+    return shorterExists;
+  }, false);
+};
+
+
+// quiz question
+/* given the following array, which underbar funcs can I use to return
+an array containing only those stickers where I have fewer than 5? */
+
+var githubStickers = [
+  {
+    name: "Octocat",
+    qty: 12
+  },
+  {
+    name: "Luchadortocat",
+    qty: 2
+  },
+  {
+    name: "Gracehoppertocat",
+    qty: 5
+  }
+]
+
+var returnLessThanFive = function (stickers) {
+
+  return _.filter(stickers, function(item, index, arr) {
+    return (item.qty < 5);
+  });
 
 };
+
+// console.log(returnLessThanFive(githubStickers));
+
+var data = {
+  supplies: [
+      {item: 'New Skis', price: 1200},
+      {item: 'Lift Ticket', price: 75},
+      {item: 'Lunch', price: 25},
+      {item: 'Gas in car', price: 30}
+  ]
+};
+
+var total = _.reduce(data.supplies,
+      function (memoizer, value) {
+        return {price: (memoizer.price + value.price)};
+      });
+// console.log(total);
+// console.log('Total cost to go skiing: $' + total.price, '#reduceexamplethreeunderscore');
