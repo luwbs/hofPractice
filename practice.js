@@ -94,20 +94,39 @@ var filterUserTweets = function(tweets, user) {
 // given an array of strings, use _.map to return a new array containing all
 // strings converted to uppercase letters.
 var upperCaseFruits = function (fruits) {
-
+  _.map(fruits, function(fruit) {
+    return fruit.toUpperCase();
+  });
 };
 
 // given an array of dessert objects, return a new array of objects
 // that have a new "glutenFree" property, with a boolean value.
 // TIP: Items that contain flour are not gluten-free.
 var glutenFree = function (desserts) {
+  // iterate through collection
+  return _.map(desserts, function(dessert, index, desserts) {
+    // create dessert object
+    var result = dessert;
+    // does ingredients list include flour?
+      // if so, new prop glutenFree = false
+      // otherwise, gF = true
+    if (_.contains(dessert.ingredients, 'flour')) {
+      result.glutenFree = false;
+    } else {
+      result.glutenFree = true;
+    }
+    return result;
+  });
 
+  // return result obj
 };
 
 // given an array of tweet objects, return a new array of strings
 // containing only the message properties.
 var allUserMessages = function(tweets) {
-
+  return _.map(tweets, function(tweet, index, tweets) {
+    return tweet.message;
+  });
 };
 
 // use _.map to return an array of items with their sale prices, with a new property
@@ -131,7 +150,24 @@ var allUserMessages = function(tweets) {
 
 */
 var applyCoupon = function (groceries, coupon) {
+  // iterate thru grocery list
+  return _.map(groceries, function(item, index) {
+    // destringify price by removing '$' and converting to int
+    // multiply by 100 to work in pennies, avoiding dodgy binary math
+    var price = Math.floor(item.price.substring(1) * 100);
 
+    // sale price is price - (price * coupon)
+    var salePrice = Math.round(price - (price * coupon));
+
+    // convert to dollars and re-stringify sale price with $
+    salePrice = '$' + (salePrice / 100);
+
+    // add salePrice property to current item
+    item.salePrice = salePrice;
+
+    // return it
+    return item;
+  });
 };
 
 /*
